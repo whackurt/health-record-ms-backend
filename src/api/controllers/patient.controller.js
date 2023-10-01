@@ -1,3 +1,4 @@
+const Medicine = require('../models/medicine');
 const Patient = require('../models/patient');
 
 const createPatient = async (req, res) => {
@@ -87,10 +88,14 @@ const deletePatient = async (req, res) => {
 			'zone'
 		);
 
+		const deletedMedicines = await Medicine.deleteMany({
+			patientId: patientId,
+		});
+
 		return res.json({
 			status: 'success',
-			message: 'Patient was deleted successfully.',
-			data: patient,
+			message: 'Patient and medicines were deleted successfully.',
+			data: { patient, deletedMedicines },
 		});
 	} catch (error) {
 		return res.status(400).json({
