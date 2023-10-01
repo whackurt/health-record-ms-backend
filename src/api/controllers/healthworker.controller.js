@@ -7,15 +7,26 @@ const signup = async (req, res) => {
 	const hashedPassword = bcrypt.hashSync(password, 8);
 
 	try {
+		const userExists = await HealthWorker.find({ hwid });
+
+		if (userExists) {
+			res.status(401).json({
+				status: 'error',
+				message: 'ID is taken already.',
+			});
+		}
+
 		await HealthWorker.create({
 			name: name,
 			healthWorkerId: hwid,
 			password: hashedPassword,
-		});
-
-		res.status(201).json({
-			status: 'success',
-			message: 'Health worker created successfully.',
+		}).then((_res) => {
+			if (_res) {
+				res.status(201).json({
+					status: 'success',
+					message: 'Health worker created successfully.',
+				});
+			}
 		});
 	} catch (error) {
 		res.status(400).json({
@@ -28,7 +39,6 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
 	const { hwid, password } = req.body;
 	const user = await HealthWorker.findOne({ healthWorkerId: hwid });
-	const passwordMatched = bcrypt.compareSync(password, user.password);
 
 	try {
 		if (!user) {
@@ -37,6 +47,8 @@ const login = async (req, res) => {
 				message: 'Healthworker not found.',
 			});
 		}
+
+		const passwordMatched = bcrypt.compareSync(password, user.password);
 
 		if (passwordMatched) {
 			res.status(200).json({
