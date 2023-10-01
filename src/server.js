@@ -11,6 +11,7 @@ const app = express();
 const authRoutes = require('./api/routes/auth.route');
 const patientRoutes = require('./api/routes/patient.route');
 const zoneRoutes = require('./api/routes/zone.route');
+const medicineRoutes = require('./api/routes/medicine.route');
 
 // connect to database
 connectToDb();
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/patient', patientRoutes);
 app.use('/api/zone', zoneRoutes);
+app.use('/api/medicine', medicineRoutes);
 
 // start server
 app.listen(process.env.PORT, () => {
