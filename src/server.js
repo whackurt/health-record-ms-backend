@@ -8,7 +8,9 @@ const connectToDb = require('./config/connectToDb');
 const app = express();
 
 // dependencies
-const authRoutes = require('./api/routes/auth');
+const authRoutes = require('./api/routes/auth.route');
+const patientRoutes = require('./api/routes/patient.route');
+const zoneRoutes = require('./api/routes/zone.route');
 
 // connect to database
 connectToDb();
@@ -19,6 +21,8 @@ app.use(express.json());
 
 // routes
 app.use('/api/auth', authRoutes);
+app.use('/api/patient', patientRoutes);
+app.use('/api/zone', zoneRoutes);
 
 // start server
 app.listen(process.env.PORT, () => {
