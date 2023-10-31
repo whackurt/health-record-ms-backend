@@ -5,9 +5,6 @@ const zoneSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
-	zoneName: {
-		type: String,
-	},
 });
 
 const Zone = mongoose.model('Zone', zoneSchema);
