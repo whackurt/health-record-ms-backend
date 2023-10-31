@@ -11,12 +11,12 @@ const addMedicine = async (req, res) => {
 			dateGiven,
 		});
 
-		return res.status(201).json({
+		res.status(201).json({
 			message: 'Medicine added to inventory successfully.',
 			data: newMedicine,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -30,12 +30,12 @@ const getMedicinesByPatient = async (req, res) => {
 			'patientId'
 		);
 
-		return res.status(201).json({
+		res.status(200).json({
 			message: 'Medicines fetched successfully.',
 			data: medicines,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -50,11 +50,11 @@ const updateMedicine = async (req, res) => {
 			returnOriginal: false,
 		});
 
-		return res.json({
+		res.status(200).json({
 			data: updatedMedicine,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -66,12 +66,12 @@ const deleteMedicine = async (req, res) => {
 	try {
 		const deletedMedicine = await Medicine.deleteOne({ _id: medicineId });
 
-		return res.json({
+		res.status(200).json({
 			message: 'Medicine deleted successfully.',
 			data: deletedMedicine,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}

@@ -13,12 +13,12 @@ const createPatient = async (req, res) => {
 			birthDate: birthDate,
 		});
 
-		return res.status(201).json({
+		res.status(201).json({
 			message: 'Patient created successfully.',
 			data: newPatient,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -28,11 +28,11 @@ const getPatients = async (req, res) => {
 	try {
 		const patients = await Patient.find().populate('zone');
 
-		return res.json({
+		res.status(200).json({
 			data: patients,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -44,11 +44,15 @@ const getPatient = async (req, res) => {
 	try {
 		const patient = await Patient.find({ _id: patientId }).populate('zone');
 
-		return res.json({
+		if (!patient) {
+			res.status(404).json({ message: 'Patient not found' });
+		}
+
+		res.status(200).json({
 			data: patient,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -63,11 +67,11 @@ const updatePatient = async (req, res) => {
 			returnOriginal: false,
 		});
 
-		return res.json({
+		res.status(200).json({
 			data: updatedPatient,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -84,12 +88,12 @@ const deletePatient = async (req, res) => {
 			patientId: patientId,
 		});
 
-		return res.json({
+		res.status(200).json({
 			message: 'Patient and medicines were deleted successfully.',
 			data: { patient, deletedMedicines },
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}

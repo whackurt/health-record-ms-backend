@@ -6,12 +6,12 @@ const createZone = async (req, res) => {
 	try {
 		const newZone = await Zone.create({ zoneNumber, zoneName });
 
-		return res.json({
+		res.status(201).json({
 			message: 'Zone created successfully.',
 			data: newZone,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -21,11 +21,11 @@ const getZones = async (req, res) => {
 	try {
 		const zones = await Zone.find();
 
-		return res.json({
+		res.status(200).json({
 			data: zones,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -39,11 +39,11 @@ const updateZone = async (req, res) => {
 			returnOriginal: false,
 		});
 
-		return res.json({
+		res.status(200).json({
 			data: updatedZone,
 		});
 	} catch (error) {
-		return res.status(400).json({
+		res.status(400).json({
 			message: error.message,
 		});
 	}
@@ -54,11 +54,15 @@ const deleteZone = async (req, res) => {
 	try {
 		const deletedZone = await Zone.deleteOne({ _id: zoneId });
 
-		return res.json({
+		res.status(200).json({
 			message: 'Zone was deleted successfully.',
 			data: deletedZone,
 		});
-	} catch (error) {}
+	} catch (error) {
+		res.status(400).json({
+			message: error.message,
+		});
+	}
 };
 
 module.exports = {

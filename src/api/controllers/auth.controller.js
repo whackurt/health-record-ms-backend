@@ -10,9 +10,7 @@ const signup = async (req, res) => {
 		const existingUser = await HealthWorker.findOne({ hwid });
 
 		if (existingUser) {
-			return res
-				.status(400)
-				.json({ message: 'Healthworker ID is already taken.' });
+			res.status(400).json({ message: 'Healthworker ID is already taken.' });
 		}
 
 		const hashedPassword = bcrypt.hashSync(password, 8);
@@ -37,13 +35,13 @@ const login = async (req, res) => {
 		const user = await HealthWorker.findOne({ healthWorkerId: hwid });
 
 		if (!user) {
-			return res.status(401).json({ message: 'Invalid credentials.' });
+			res.status(401).json({ message: 'Invalid credentials.' });
 		}
 
 		const passwordMatched = await bcrypt.compareSync(password, user.password);
 
 		if (!passwordMatched) {
-			return res.status(401).json({ message: 'Invalid credentials.' });
+			res.status(401).json({ message: 'Invalid credentials.' });
 		}
 
 		const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
