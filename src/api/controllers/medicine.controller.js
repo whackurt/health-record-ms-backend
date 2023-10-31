@@ -45,6 +45,27 @@ const getMedicinesByPatient = async (req, res) => {
 	}
 };
 
+const updateMedicine = async (req, res) => {
+	const filter = { _id: req.params.medicineId };
+	const { updates } = req.body;
+
+	try {
+		const updatedMedicine = await Medicine.findOneAndUpdate(filter, updates, {
+			returnOriginal: false,
+		});
+
+		return res.json({
+			status: 'success',
+			data: updatedMedicine,
+		});
+	} catch (error) {
+		return res.status(400).json({
+			status: 'error',
+			message: error.message,
+		});
+	}
+};
+
 const deleteMedicine = async (req, res) => {
 	const { medicineId } = req.params;
 
@@ -53,7 +74,7 @@ const deleteMedicine = async (req, res) => {
 
 		return res.json({
 			status: 'success',
-			message: 'Medicine  deleted successfully.',
+			message: 'Medicine deleted successfully.',
 			data: deletedMedicine,
 		});
 	} catch (error) {
@@ -67,5 +88,6 @@ const deleteMedicine = async (req, res) => {
 module.exports = {
 	addMedicine,
 	getMedicinesByPatient,
+	updateMedicine,
 	deleteMedicine,
 };
