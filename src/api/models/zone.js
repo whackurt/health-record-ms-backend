@@ -4,6 +4,7 @@ const zoneSchema = new mongoose.Schema({
 	zoneNumber: {
 		type: Number,
 		required: true,
+		unique: true,
 	},
 });
 
