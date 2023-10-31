@@ -7,13 +7,11 @@ const createZone = async (req, res) => {
 		const newZone = await Zone.create({ zoneNumber, zoneName });
 
 		return res.json({
-			status: 'success',
 			message: 'Zone created successfully.',
 			data: newZone,
 		});
 	} catch (error) {
 		return res.status(400).json({
-			status: 'error',
 			message: error.message,
 		});
 	}
@@ -24,12 +22,10 @@ const getZones = async (req, res) => {
 		const zones = await Zone.find();
 
 		return res.json({
-			status: 'success',
 			data: zones,
 		});
 	} catch (error) {
 		return res.status(400).json({
-			status: 'error',
 			message: error.message,
 		});
 	}
@@ -44,12 +40,10 @@ const updateZone = async (req, res) => {
 		});
 
 		return res.json({
-			status: 'success',
 			data: updatedZone,
 		});
 	} catch (error) {
 		return res.status(400).json({
-			status: 'error',
 			message: error.message,
 		});
 	}
@@ -61,7 +55,6 @@ const deleteZone = async (req, res) => {
 		const deletedZone = await Zone.deleteOne({ _id: zoneId });
 
 		return res.json({
-			status: 'success',
 			message: 'Zone was deleted successfully.',
 			data: deletedZone,
 		});
