@@ -11,6 +11,7 @@ const signup = async (req, res) => {
 
 		if (existingUser) {
 			res.status(400).json({ message: 'Healthworker ID is already taken.' });
+			return;
 		}
 
 		const hashedPassword = bcrypt.hashSync(password, 8);
@@ -36,15 +37,17 @@ const login = async (req, res) => {
 
 		if (!user) {
 			res.status(401).json({ message: 'Invalid credentials.' });
+			return;
 		}
 
 		const passwordMatched = await bcrypt.compareSync(password, user.password);
 
 		if (!passwordMatched) {
 			res.status(401).json({ message: 'Invalid credentials.' });
+			return;
 		}
 
-		const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
+		const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
 			expiresIn: '12h', // Token expiration time (adjust as needed)
 		});
 
