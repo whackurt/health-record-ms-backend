@@ -80,18 +80,28 @@ const updatePatient = async (req, res) => {
 const deletePatient = async (req, res) => {
 	const { patientId } = req.params;
 	try {
-		const patient = await Patient.deleteOne({ _id: patientId }).populate(
-			'zone'
-		);
+		const patientExist = await Patient.findOne({ _id: patientId });
 
-		const deletedMedicines = await Medicine.deleteMany({
-			patientId: patientId,
-		});
+		if (!patientExist) {
+			res.status(404).json({
+				message: 'Patient not found.',
+				data: {},
+			});
+			return;
+		} else {
+			const patient = await Patient.deleteOne({ _id: patientId }).populate(
+				'zone'
+			);
 
-		res.status(200).json({
-			message: 'Patient and medicines were deleted successfully.',
-			data: { patient, deletedMedicines },
-		});
+			const deletedMedicines = await Medicine.deleteMany({
+				patientId: patientId,
+			});
+
+			res.status(200).json({
+				message: 'Patient and medicines were deleted successfully.',
+				data: { patient, deletedMedicines },
+			});
+		}
 	} catch (error) {
 		res.status(400).json({
 			message: error.message,
