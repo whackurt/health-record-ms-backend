@@ -26,7 +26,7 @@ const signup = async (req, res) => {
 
 		res.status(201).json({
 			message: 'Healthworker registered successfully.',
-			userId: registered._id,
+			healthWorkerId: registered.healthWorkerId,
 		});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
