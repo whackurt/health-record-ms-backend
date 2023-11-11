@@ -22,9 +22,12 @@ const signup = async (req, res) => {
 			password: hashedPassword,
 		});
 
-		await newHealthWorker.save();
+		const registered = await newHealthWorker.save();
 
-		res.status(201).json({ message: 'Healthworker registered successfully.' });
+		res.status(201).json({
+			message: 'Healthworker registered successfully.',
+			userId: registered._id,
+		});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
@@ -51,7 +54,7 @@ const login = async (req, res) => {
 			expiresIn: '12h', // Token expiration time (adjust as needed)
 		});
 
-		res.status(200).json({ userId: user._id, token });
+		res.status(200).json({ userId: user._id, userName: user.name, token });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
