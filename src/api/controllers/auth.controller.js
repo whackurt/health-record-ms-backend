@@ -50,9 +50,7 @@ const login = async (req, res) => {
 			return;
 		}
 
-		const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
-			expiresIn: '12h', // Token expiration time (adjust as needed)
-		});
+		const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET);
 
 		res.status(200).json({ userId: user._id, userName: user.name, token });
 	} catch (error) {
