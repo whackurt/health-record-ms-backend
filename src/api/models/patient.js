@@ -10,15 +10,28 @@ const patientSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		address: {
-			type: String,
+		birthDate: {
+			type: Date,
+			required: true,
 		},
 		zone: {
 			type: mongoose.Types.ObjectId,
 			ref: 'Zone',
 		},
-		birthDate: {
-			type: Date,
+		street: {
+			type: String,
+			required: true,
+		},
+		barangay: {
+			type: String,
+			required: true,
+		},
+		city_municipality: {
+			type: String,
+			required: true,
+		},
+		province: {
+			type: String,
 			required: true,
 		},
 	},

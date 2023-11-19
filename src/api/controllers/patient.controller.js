@@ -2,15 +2,27 @@ const Medicine = require('../models/medicine');
 const Patient = require('../models/patient');
 
 const createPatient = async (req, res) => {
-	const { firstName, lastName, address, zone, birthDate } = req.body;
+	const {
+		firstName,
+		lastName,
+		street,
+		barangay,
+		city_municipality,
+		province,
+		zone,
+		birthDate,
+	} = req.body;
 
 	try {
 		const newPatient = await Patient.create({
 			firstName: firstName,
 			lastName: lastName,
-			address: address,
-			zone: zone,
 			birthDate: birthDate,
+			zone: zone,
+			street: street,
+			barangay: barangay,
+			city_municipality: city_municipality,
+			province: province,
 		});
 
 		res.status(201).json({
