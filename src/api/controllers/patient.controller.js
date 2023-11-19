@@ -38,11 +38,31 @@ const getPatients = async (req, res) => {
 	}
 };
 
-const getPatient = async (req, res) => {
+const getPatientById = async (req, res) => {
 	const { patientId } = req.params;
 
 	try {
 		const patient = await Patient.find({ _id: patientId }).populate('zone');
+
+		if (!patient) {
+			res.status(404).json({ message: 'Patient not found' });
+		}
+
+		res.status(200).json({
+			data: patient,
+		});
+	} catch (error) {
+		res.status(400).json({
+			message: error.message,
+		});
+	}
+};
+
+const getPatientByZone = async (req, res) => {
+	const { zoneId } = req.params;
+
+	try {
+		const patient = await Patient.find({ zone: zoneId }).populate('zone');
 
 		if (!patient) {
 			res.status(404).json({ message: 'Patient not found' });
@@ -112,7 +132,8 @@ const deletePatient = async (req, res) => {
 module.exports = {
 	createPatient,
 	getPatients,
-	getPatient,
+	getPatientById,
+	getPatientByZone,
 	updatePatient,
 	deletePatient,
 };
