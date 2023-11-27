@@ -8,6 +8,7 @@ router.get(
 	verifyToken,
 	medicineController.getMedicinesByPatient
 );
+router.get('/', verifyToken, medicineController.getMedicines);
 router.post('/', verifyToken, medicineController.addMedicine);
 router.put('/:medicineId', verifyToken, medicineController.updateMedicine);
 router.delete('/:medicineId', verifyToken, medicineController.deleteMedicine);
